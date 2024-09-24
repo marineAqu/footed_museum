@@ -1,0 +1,74 @@
+.Signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+   
+}
+
+.signupHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    width: 100%;
+    background-color: #e3dcdc;
+    font-size: 10px;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+    color: black;
+}
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 15px;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 70%; 
+    box-sizing: border-box;
+    font-family: "Do Hyeon", sans-serif;
+}
+
+.checkButton {
+    width: 25%;
+    padding: 10px;
+    background-color: #e3dcdc;
+    border: 1px solid #e3dcdc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Do Hyeon", sans-serif;
+}
+
+.signupButton {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #e3dcdc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: black;
+    font-family: "Do Hyeon", sans-serif;
+}
+
+.signupButton:hover {
+    background-color: #bcb4b4;
+}

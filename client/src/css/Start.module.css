@@ -1,0 +1,35 @@
+.start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+}
+ 
+ 
+ .logo img {
+    width: 150px; 
+    margin-bottom: 30px; 
+    justify-content: center; 
+  }
+  
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    align-items: center;
+  }
+  
+  .loginButton, .signupButton {
+    width: 100%;
+    max-width: 100px; 
+    padding: 12px;
+    font-size: 15px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif; 
+    background-color: #e3dcdc; 
+    color: rgb(51, 50, 50);
+    font-family: "Do Hyeon", sans-serif;
+  }
