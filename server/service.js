@@ -1,6 +1,6 @@
 // service.js
-const mysql = require("mysql");
 require('dotenv').config();
+const mysql = require("mysql");
 
 const connect = mysql.createConnection({
     host: process.env.HOST,

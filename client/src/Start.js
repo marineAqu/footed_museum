@@ -14,7 +14,7 @@ function Start() {
   return (
     <div className={styles.start}>
       <div className={styles.logo}>
-        <img src="logo.png" alt="로고" />
+        <img src="/app_logo.png" alt="로고" />
       </div>
       <div className={styles.buttonContainer}>
         <button className={styles.loginButton} onClick={LoginClick}>로그인</button>

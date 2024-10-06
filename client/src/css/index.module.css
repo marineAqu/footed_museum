@@ -16,9 +16,6 @@
     align-items: center; 
     overflow: auto;
     min-width: 400px;
-    
-    
-
 }
 
 ::-webkit-scrollbar {

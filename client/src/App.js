@@ -1,9 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Start from './Start';
-import Login from './Login';
-import Signup from './Signup';
-import Home from './Home';
+import Start from './Start.js';
+import Login from './Login.js';
+import Signup from './Signup.js';
+import Home from './Home.js';
+import ProfileScreen from './ProfileScreen.js';
+import PostList from './PostList.js';
+import Register from './Register.js';
+
 
 function App() {
   return (
@@ -13,7 +17,9 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Home" element={<Home />} />
-        
+        <Route path="/Profile" element={<ProfileScreen />} />
+        <Route path="/PostList" element={<PostList />} />
+        <Route path="/Register" element={<Register />} />
       </Routes>
     </Router>
   );
