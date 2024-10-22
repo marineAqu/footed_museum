@@ -1,4 +1,5 @@
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const mysql = require("mysql");
 
 const connect = mysql.createConnection({
