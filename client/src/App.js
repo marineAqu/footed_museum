@@ -7,6 +7,12 @@ import Home from './Home.js';
 import ProfileScreen from './ProfileScreen.js';
 import PostList from './PostList.js';
 import Register from './Register.js';
+import SearchModal from './SearchModal.js';
+import Map from './Map.js';
+import QrManagement from './QrManagement.js';
+import ItemDetail from './ItemDetail.js';
+import ChatScreen from './ChatScreen.js';
+
 
 
 function App() {
@@ -20,6 +26,11 @@ function App() {
         <Route path="/Profile" element={<ProfileScreen />} />
         <Route path="/PostList" element={<PostList />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/search" element={<SearchModal />} />
+        <Route path="/map" element={<Map />} />
+        <Route path="/QrManagement" element={<QrManagement />} />
+        <Route path="/item-detail" element={<ItemDetail />} />
+        <Route path="/chat" element={<ChatScreen />} />
       </Routes>
     </Router>
   );

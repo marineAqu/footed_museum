@@ -1,0 +1,85 @@
+.modalContent {
+    padding: 20px;
+    background-color: white;
+}
+
+
+.header {
+    display: flex;
+    justify-content:end;
+    align-items: center;
+    padding: 10px;
+    background-color: #e3dcdc;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.title {
+    text-align: center;
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.keywords, .category {
+    margin-top: 20px;
+}
+
+.selectedKeywords {
+    display: flex;
+    gap: 10px;
+}
+
+.keyword {
+    background-color: #f0f0f0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.removeBtn {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+.categoryButtons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 드롭다운 스타일 */
+.dropdown {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 100px;
+}
+
+.dropdownItem {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdownItem:hover {
+    background-color: #ddd;
+}

@@ -5,28 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b435ca63-3217-4b24-851f-7d05dfe41e10" name="변경" comment="Desktop5(프로필), Desktop6(등록글 목록), Desktop4(게시물 등록)">
-      <change afterPath="$PROJECT_DIR$/client/public/app_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/PostList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/ProfileScreen.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/Register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/css/PostList.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/css/ProfileScreen.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/css/Register.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/QR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/item1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/item2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/item4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/item5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/item6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/item7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/school_map.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/ChatScreen.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/ItemDetail.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/Map.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/QrManagement.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/SearchModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/css/ChatScreen.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/css/ItemDetail.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/css/Map.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/css/QrManagement.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/css/SearchModal.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/Start.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Start.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/css/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/css/Home.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/css/Login.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/css/Login.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/css/Signup.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/css/Signup.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/css/Start.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/css/Start.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/css/index.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/css/index.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ProfileScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/ProfileScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +60,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -75,11 +79,15 @@
   "keyToString": {
     "JavaScript 디버그.index.html.executor": "Run",
     "Node.js.App.js.executor": "Run",
+    "Node.js.ChatScreen.js.executor": "Run",
     "Node.js.Home.js.executor": "Run",
+    "Node.js.ItemDetail.js.executor": "Run",
     "Node.js.Login.js.executor": "Run",
+    "Node.js.Map.js.executor": "Run",
     "Node.js.PostList.js.executor": "Run",
     "Node.js.ProfileScreen.js.executor": "Run",
     "Node.js.Register.js.executor": "Run",
+    "Node.js.SearchModal.js.executor": "Run",
     "Node.js.Start.js.executor": "Run",
     "Node.js.index.js.executor": "Run",
     "Node.js.profile.js.executor": "Run",
@@ -96,7 +104,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
     "ts.external.directory.path": "C:\\Users\\ajbae\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
@@ -146,7 +154,16 @@
       <workItem from="1727439411208" duration="21563000" />
       <workItem from="1727787770952" duration="2317000" />
       <workItem from="1727790133880" duration="22000" />
-      <workItem from="1727790165939" duration="18765000" />
+      <workItem from="1727790165939" duration="19278000" />
+      <workItem from="1728202406661" duration="1449000" />
+      <workItem from="1728316661111" duration="68000" />
+      <workItem from="1728391319204" duration="1445000" />
+      <workItem from="1729140078245" duration="3054000" />
+      <workItem from="1729146383313" duration="132000" />
+      <workItem from="1729259594941" duration="12301000" />
+      <workItem from="1729272680481" duration="311000" />
+      <workItem from="1729519878250" duration="2454000" />
+      <workItem from="1729589106786" duration="553000" />
     </task>
     <task id="LOCAL-00001" summary="기본 server 구축">
       <option name="closed" value="true" />
@@ -156,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727176192454</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Desktop5(프로필), Desktop6(등록글 목록), Desktop4(게시물 등록)">
+      <option name="closed" value="true" />
+      <created>1728201932456</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728201932456</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
