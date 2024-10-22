@@ -1,16 +1,49 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import styles from './css/Login.module.css'; 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './css/Login.module.css';
 
 const Login = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const BackClick = () => {
-        navigate('/'); 
+        navigate('/');
     };
-    const LoginClick= () => {
-        navigate('/Home');
-    }
+
+    const handleLogin = async (e) => {
+        e.preventDefault(); // 페이지 리로딩 방지
+
+        try {
+            // fetch로 로그인 요청 보내기
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error);
+            }
+
+            const data = await response.json();
+            const token = data.token;
+            localStorage.setItem('token', token); // JWT 토큰 저장
+
+            // 로그인 성공 시 홈으로 이동
+            navigate('/Home');
+        } catch (error) {
+            setError('로그인 실패: ' + error.message); // 오류 메시지 처리
+        }
+    };
 
     return (
         <div className={styles.Login}>
@@ -18,10 +51,10 @@ const Login = () => {
                 <button onClick={BackClick} className={styles.backButton}>{'<'}</button>
                 <h1 className={styles.title}>로그인</h1>
             </header>
-            <form className={styles.loginForm}>
-                <input type="text" placeholder="아이디" className={styles.input}/>
-                <input type="password" placeholder="비밀번호" className={styles.input}/>
-                <button type="submit" onClick={LoginClick} className={styles.submitButton}>로그인</button>
+            <form className={styles.loginForm} onSubmit={handleLogin}>
+                <input type="text" placeholder="아이디" className={styles.input} value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <input type="password" placeholder="비밀번호" className={styles.input} value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <button type="submit" className={styles.submitButton}>로그인</button>
             </form>
         </div>
     );
