@@ -8,6 +8,23 @@ const connect = mysql.createConnection({
     database: process.env.DATABASE
 });
 
+// JWT 인증 미들웨어
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        return res.status(403).json({ error: '토큰이 없습니다.' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ error: '토큰이 유효하지 않습니다.' });
+        }
+        req.user = user;
+        next();
+    });
+};
+
 
 //이메일 중복 방지
 function checkEmail(email, callback) {
@@ -53,8 +70,16 @@ function logIn(email, password, callback) {
 
         // 비밀번호 확인
         if (password === user.password) {
+            // JWT 토큰 생성
+            const token = jwt.sign(
+                { user_id: user.user_id, email: user.email, user_name: user.user_name },
+                process.env.JWT_SECRET, // JWT_SECRET은 환경 변수에 설정되어 있어야 함
+                { expiresIn: '1h' } // 토큰은 1시간 후 만료됨
+            );
+
             callback(null, {
                 message: '로그인 성공',
+                token, // 토큰을 프론트엔드에 반환
                 user: {user_id: user.user_id, email: user.email, user_name: user.user_name}
             });
         } else {
@@ -64,6 +89,7 @@ function logIn(email, password, callback) {
 }
 
 module.exports = {
+    authenticateToken,
     checkEmail,
     signUp,
     logIn

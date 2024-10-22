@@ -1,4 +1,5 @@
 const service = require('./member.service.js');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 class MemberController {
