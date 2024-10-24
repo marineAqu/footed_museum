@@ -10,13 +10,18 @@ app.use(bodyParser.json());
 const test = require('./router/register.router');
 const router = require('./router');
 
-app.use('/api', test);
+//websocket.js파일로 옮김, 변수를 사용하지 않지만 지우면 안됨
+const wss = require('./websocket.js');
+
+app.use(express.json());
 
 const port = 3002; //node 서버가 사용할 포트 번호
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 })
+
+app.use('/api', test);
 
 app.get('/temp', async (req, res) => {
     try {
