@@ -1,8 +1,5 @@
 require('dotenv').config();
 const mysql = require("mysql");
-//const WebSocketServer = require('ws');
-
-//const websocket = new WebSocketServer({ port: 8080 });
 
 const connect = mysql.createConnection({
     host: process.env.HOST,
@@ -10,27 +7,6 @@ const connect = mysql.createConnection({
     password: process.env.PASSWORD,
     database: process.env.DATABASE
 });
-
-//on은 데이터 받기, emit은 데이터 전송
-/*websocket.on('connection', (ws) => {
-    console.log('커넥션 발생');
-
-    websocket.on('message', (message) => {
-        console.log('Received:', message);
-        // Broadcast the message to all clients
-        websocket.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(message);
-            }
-        });
-    });
-
-    websocket.on('close', () => {
-        console.log('Client disconnected');
-    });
-});
-
- */
 
 function chatlist(userid) {
     return new Promise((resolve, reject) => {
@@ -92,6 +68,5 @@ module.exports = {
     chatlist,
     makeNewRoom,
     sendMessage,
-    getMessages,
-    //websocket
+    getMessages
 };
