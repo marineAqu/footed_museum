@@ -38,7 +38,7 @@ function makeNewRoom(user1, user2){
 
 function sendMessage(chatRoomId, senderId, message) {
     return new Promise((resolve, reject) => {
-        connect.query('INSERT INTO Messages (chat_room_id, sender_id, message) VALUES (?, ?, ?)',
+        connect.query('INSERT INTO Messages (room_id, sender_id, message_content) VALUES (?, ?, ?)',
             [chatRoomId, senderId, message],
             function (error, result) {
                 if (error) {
