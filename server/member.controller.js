@@ -36,7 +36,7 @@ class MemberController {
             if (result.error) {
                 return res.status(401).json({error: result.error});
             }
-            res.json({message: result.message, user: result.user});
+            res.json({message: result.message, user: result.user, token: result.token});
         });
     };
 
