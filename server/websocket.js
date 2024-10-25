@@ -1,9 +1,11 @@
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port:8008 });
+const ChatService = require('./chat.service');
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
+    //클라이언트로부터 메시지를 받았을 때
     ws.on('message', (message) => {
         //채팅방 id, 보낸 사람 이름, 메시지 내용
         const result = JSON.parse(message);
@@ -16,6 +18,8 @@ wss.on('connection', (ws) => {
 
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
+                //클라이언트로 메시지 전송 & DB에 메시지 저장
+                ChatService.sendMessage(result.chatRoomId, result.senderId, result.message);
                 client.send(JSON.stringify(result));
             }
             else{
@@ -29,26 +33,4 @@ wss.on('connection', (ws) => {
     });
 });
 
-/*
-io.sockets.on('connection', function(socket){
-    console.log('Client connected');
-
-    // 새로운 유저가 접속했을 경우 다른 소켓에게도 알려줌
-    socket.on('newUser', function(name){
-
-        socket.name = name;
-
-        // 접속되어 있는 다른 유저들에게 알리기 위해 모든 소켓에게 이름 전송
-        io.sockets.emit('update', {type: 'connect', name: '📢', message: name + '님이 접속하였습니다.'})
-    });
-
-    socket.on('message', function(data){
-        // 받은 데이터에 누가 보냈는지 이름을 추가
-        data.name = socket.name;
-
-        // client에게 update 이벤트 발생
-        socket.broadcast.emit('update', data);
-    });
-});
- */
 module.exports = wss;
