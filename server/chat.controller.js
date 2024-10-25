@@ -14,16 +14,6 @@ class ChatController {
         res.status(200).json({ "status" : "success"});
     };
 
-    sendMessage = async (req, res) => {
-        const { chatRoomId, senderId, message } = req.body;
-        try {
-            await service.sendMessage(chatRoomId, senderId, message);
-            res.status(200).json({ status: "success" });
-        } catch (error) {
-            res.status(500).json({ error: "Failed to send message" });
-        }
-    };
-
     getMessages = async (req, res) => {
         const { chatRoomId } = req.query;
         try {
