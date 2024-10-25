@@ -24,12 +24,8 @@ const QrManagement = () => {
                     <div className={styles.currentQr}> </div>
                 </div>
                 <button className={styles.saveButton}>이미지로 저장</button>
-                <button className={styles.issueButton}>재발급</button>
-                <div className={styles.expiration}>
-                    재발급까지 남은 기간
                 </div>
             </div>
-        </div>
     );
 };
 

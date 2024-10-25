@@ -18,40 +18,46 @@ const Home = () => {
     const posts = [
         //예시 게시글들 fetch로 api따오면이렇게되겟죠
         {
-            title: '에어팟 찾아요ㅠㅠ',
+            title: '에어팟 찾아요',
             status: '잃어버렸어요',
             date: '2024-09-01', 
             image: 'item1.png',
+            keywords: ['에어팟', '검정', 'IT']
         },
         {
             title: '체크카드 주웠습니다.',
             status: '주웠어요',
             date: '2024-09-02',
             image: 'item2.png',
+            keywords: ['카드', '노랑', '학생회관']
         },
         {
             title: '혹시 카드 보신 분!!',
             status: '잃어버렸어요',
             date: '2024-09-04', 
             image: 'item4.png',
+            keywords: ['카드', '파랑', '인문대']
         },
         {
             title: '마루인형키링 주운 사람..',
             status: '잃어버렸어요',
             date: '2024-09-05', 
             image: 'item5.png',
+            keywords: ['인형', '마루', '학생회관']
         },
         {
             title: '틴트 보신 분 계신가요?',
             status: '잃어버렸어요',
             date: '2024-09-06', 
             image: 'item6.png',
+            keywords: ['틴트', '빨간', '법정대']
         },
         {
             title: '버즈 찾아요.',
             status: '잃어버렸어요',
             date: '2024-09-07', 
             image: 'item7.png',
+            keywords: ['버즈', '보라', '미래']
         },
     ];
 
@@ -69,6 +75,10 @@ const Home = () => {
 
     const goToMap = () => {
         navigate('/map');  // 지도 화면으로 이동
+    };
+
+    const goToChat = () => {
+        navigate('/chat');  // 채팅 화면으로 이동
     };
 
     const goToItemDetail = (item) => {
@@ -100,6 +110,7 @@ const Home = () => {
             <nav className={styles.navbar}>
                 <button className={styles.navButton}>홈</button>
                 <button className={styles.navButton} onClick={goToMap}>지도</button>
+                <button className={styles.navButton} onClick={goToChat}>채팅</button>
                 <button className={styles.navButton} onClick={goToProfile}>프로필</button>
             </nav>
 

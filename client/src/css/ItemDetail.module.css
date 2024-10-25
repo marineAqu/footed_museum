@@ -60,3 +60,22 @@
     border: none;
     cursor: pointer;
 }
+
+.keywordButtons {
+    display: flex; /* 키워드 버튼들을 한 줄로 배치 */
+    gap: 10px; /* 키워드 간의 간격 */
+    flex-wrap: wrap; /* 버튼들이 화면 밖으로 넘어가면 다음 줄에 배치 */
+    margin-top: 10px; /* 위쪽과의 간격 */
+}
+
+.keywordButton {
+    background-color: #f0f0f0;
+    padding: 8px 12px; /* 버튼의 안쪽 여백 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Do Hyeon", sans-serif;
+    font-size: 14px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 버튼에 마우스 올렸을 때 부드러운 전환 효과 */
+}

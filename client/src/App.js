@@ -12,6 +12,8 @@ import Map from './Map.js';
 import QrManagement from './QrManagement.js';
 import ItemDetail from './ItemDetail.js';
 import ChatScreen from './ChatScreen.js';
+import ChatList from './ChatList.js';
+import SearchResults from './SearchResults.js';
 
 
 
@@ -30,7 +32,9 @@ function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/QrManagement" element={<QrManagement />} />
         <Route path="/item-detail" element={<ItemDetail />} />
-        <Route path="/chat" element={<ChatScreen />} />
+        <Route path="/chat" element={<ChatList />} />
+        <Route path="/chat/:id" element={<ChatScreen />} />
+        <Route path="/search-results" element={<SearchResults />} />
       </Routes>
     </Router>
   );
