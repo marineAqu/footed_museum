@@ -8,23 +8,30 @@ const ChatScreen = () => {
     const [inputMessage, setInputMessage] = useState('');
     const [showOptions, setShowOptions] = useState(false);
     const optionsRef = useRef(null);
+    const [ws, setWs] = useState(null);
+    const chatRoomId = 2;
+    const myId = 1;
+
+    //TODO 본인 아이디를 알아야 하고 상대 아이디를 알아야 함
+    // 데이터: chatRoomId, senderName, senderId, message
+    // 추가해야 하는 거: 내 ID 확인 후 myId 변수를 그걸로 변경하기
 
     const goBack = () => {
         navigate(-1); // 이전 페이지로 이동
     };
 
+    //메시지 보낼 때 이벤트
     const handleSendMessage = () => {
         if (inputMessage.trim()) {
-            setMessages([...messages, { text: inputMessage, sender: 'me' }]); // 나의 메시지 추가
-            setInputMessage(''); // 입력창 초기화
 
-            // 친구의 메시지 추가 예시 (실제 구현에서는 API로 받아올 수 있음)
-            setTimeout(() => {
-                setMessages((prevMessages) => [
-                    ...prevMessages,
-                    { text: '친구의 응답 메시지', sender: 'friend' } // 친구의 메시지 추가
-                ]);
-            }, 1000);
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const message = { chatRoomId: chatRoomId, senderId: 1, senderName: '김도연', message: inputMessage }; // Replace senderId with actual user ID
+                ws.send(JSON.stringify(message));
+                setInputMessage('');
+            }
+            else {
+                console.error('WebSocket is not open');
+            }
         }
     };
 
@@ -59,9 +66,33 @@ const ChatScreen = () => {
 
     // 컴포넌트가 마운트될 때 클릭 이벤트 리스너 추가
     useEffect(() => {
+        const socket = new WebSocket('ws://localhost:8008');
+
+        setWs(socket);
+
+        socket.onopen = () => {
+            console.log('front: WebSocket is connected');
+        };
+
+        socket.onmessage = (event) => {
+            console.log('front: Received:', JSON.parse(event.data));
+            const message = JSON.parse(event.data);
+            console.log('정돈한 데이터: ', message);
+            setMessages((prevMessages) => [...prevMessages, message]);
+        };
+
+        socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        socket.onclose = (event) => {
+            console.log('WebSocket is closed now.', event);
+        };
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            socket.close();
         };
     }, []);
 
@@ -73,11 +104,11 @@ const ChatScreen = () => {
             </header>
             <div className={styles.chatContainer}>
                 {messages.map((msg, index) => (
-                    <div key={index} className={msg.sender === 'me' ? styles.myMessage : styles.friendMessage}>
+                    <div key={index} className={msg.senderId === myId ? styles.myMessage : styles.friendMessage}>
                         {msg.isImage ? (
                             <img src={msg.text} alt="전송된 이미지" className={styles.imageMessage} />
                         ) : (
-                            msg.text
+                            msg.message
                         )}
                     </div>
                 ))}
