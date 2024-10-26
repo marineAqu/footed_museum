@@ -10,11 +10,11 @@ const ChatScreen = () => {
     const optionsRef = useRef(null);
     const [ws, setWs] = useState(null);
     const chatRoomId = 2;
-    const myId = 1;
+    const [myId, setMyId] = useState(null);
 
-    //TODO 본인 아이디를 알아야 하고 상대 아이디를 알아야 함
-    // 데이터: chatRoomId, senderName, senderId, message
-    // 추가해야 하는 거: 내 ID 확인 후 myId 변수를 그걸로 변경하기
+    //TODO
+    // 채팅룸 하드코딩된 거 고쳐야함
+    // 음.???;; 서버 껏다켯는데 왜 여전히 로그인정보가남아잇지
 
     const goBack = () => {
         navigate(-1); // 이전 페이지로 이동
@@ -25,7 +25,7 @@ const ChatScreen = () => {
         if (inputMessage.trim()) {
 
             if (ws && ws.readyState === WebSocket.OPEN) {
-                const message = { chatRoomId: chatRoomId, senderId: 1, senderName: '김도연', message: inputMessage }; // Replace senderId with actual user ID
+                const message = { chatRoomId: chatRoomId, senderId: myId, senderName: '김도연', message: inputMessage }; // Replace senderId with actual user ID
                 ws.send(JSON.stringify(message));
                 setInputMessage('');
             }
@@ -66,6 +66,37 @@ const ChatScreen = () => {
 
     // 컴포넌트가 마운트될 때 클릭 이벤트 리스너 추가
     useEffect(() => {
+        const fetchData = async () => {
+            try{
+                const token = localStorage.getItem("token");
+
+                const response = await fetch("/api/protected", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                });
+
+                if(!response.ok){
+                    setMyId(3); //로그인하지 않은 유저의 경우 익명의 유저로 처리
+                    throw new Error('로그인 정보를 가져오는 데 실패했습니다.');
+                }
+
+                const result = await response.json();
+                setMyId(result.user.user_id);
+
+                console.log('로그인 정보: ', result.user.user_id);
+            }catch (error){
+                console.error('로그인 정보 에러: ', error);
+                console.log('로그인 정보: ', myId);
+            }
+        };
+
+        fetchData();
+
+
+
         const socket = new WebSocket('ws://localhost:8008');
 
         setWs(socket);
