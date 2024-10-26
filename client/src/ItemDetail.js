@@ -5,14 +5,14 @@ import styles from './css/ItemDetail.module.css';
 const ItemDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { title, status, date, image } = location.state;
+    const { title, status, date, image, keywords } = location.state; // keywords 추가
 
     const goBack = () => {
         navigate(-1);
     };
 
     const goToChat = () => {
-        navigate('/chat');
+        navigate('/chat/:ID');
     };
 
     return (
@@ -22,14 +22,19 @@ const ItemDetail = () => {
                 <span className={styles.title}>{title}</span> {/* 분실물 제목 */}
             </header>
             <div className={styles.content}>
-                <img src={image} alt={title} className={styles.itemImage}/>
+                <img src={image} alt={title} className={styles.itemImage} />
                 <p>{status}</p>
                 <p>{date}</p>
-                <div className={styles.categoryButtons}>
-                    <button className={styles.categoryButton}>종류</button>
-                    <button className={styles.categoryButton}>색상</button>
-                    <button className={styles.categoryButton}>장소</button>
+
+                {/* 키워드들 출력 */}
+                <div className={styles.keywordButtons}>
+                    {keywords.map((keyword, index) => (
+                        <button key={index} className={styles.keywordButton}>
+                            {keyword}
+                        </button>
+                    ))}
                 </div>
+
                 <div className={styles.details}>
                     <p>기타 상세 설명</p>
                 </div>

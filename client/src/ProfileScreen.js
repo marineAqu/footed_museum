@@ -21,6 +21,10 @@ const ProfileScreen = () => {
         navigate('/map');  // 지도 화면으로 이동하는 함수 추가
     };
 
+    const goToChat = () => {
+        navigate('/chat');  // 채팅 화면으로 이동
+    };
+
     return (
         <div className={styles.profileScreen}>
             <header className={styles.header}>
@@ -40,15 +44,13 @@ const ProfileScreen = () => {
                     <button className={styles.menuItem} onClick={goToPostList}>등록글 목록</button>
                     <button className={styles.menuItem}>키워드 알림 설정</button>
                     <button className={styles.menuItem} onClick={goToQrManagement}>QR 관리</button>
-                    <button className={styles.menuItem}>테마 설정(다크/라이트)</button>
-                    <button className={styles.menuItem}>공지사항</button>
-                    <button className={styles.menuItem}>고객센터</button>
                 </div>
             </div>
 
             <nav className={styles.navbar}>
                 <button className={styles.navButton} onClick={goToHome}>홈</button>
                 <button className={styles.navButton} onClick={goToMap}>지도</button>
+                <button className={styles.navButton} onClick={goToChat}>채팅</button>
                 <button className={styles.navButton}>프로필</button>
             </nav>
         </div>

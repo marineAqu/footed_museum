@@ -1,0 +1,79 @@
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #e3dcdc;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.chatRoom {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.profileImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+
+.chatInfo {
+    flex-grow: 1;
+}
+
+.chatInfo h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.chatInfo p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.chatMeta {
+    text-align: right;
+}
+
+.time {
+    font-size: 12px;
+    color: #888;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.unreadBadge {
+
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
