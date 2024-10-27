@@ -36,6 +36,23 @@ function makeNewRoom(user1, user2){
     });
 }
 
+function findRoom(user1, user2){
+    console.log('user1 and 2: ', user1, user2);
+
+    return new Promise((resolve, reject) => {
+        connect.query('Select room_id from chatrooms where user1_id = ? and user_id2 = ?',
+            [user1, user2],
+            function (error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    console.log('result: ', result);
+                    resolve(result[0]);
+                }
+            });
+    });
+}
+
 function sendMessage(chatRoomId, senderId, message) {
     return new Promise((resolve, reject) => {
         connect.query('INSERT INTO Messages (room_id, sender_id, message_content) VALUES (?, ?, ?)',
@@ -68,5 +85,6 @@ module.exports = {
     chatlist,
     makeNewRoom,
     sendMessage,
-    getMessages
+    getMessages,
+    findRoom
 };
