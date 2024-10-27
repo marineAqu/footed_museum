@@ -2,6 +2,7 @@ const service = require('./service.js');
 const qrCode = require("qrcode");
 require('dotenv').config();
 let multer = require("multer");
+const chatService = require('./chat.service');
 
 const upload = multer({
     dest: "uploads/"
@@ -19,11 +20,18 @@ class RegisterController {
         res.status(200).json({ getTemp });
     };
 
+    reeealTemp = async (req, res) => {
+        console.log("req: " + req.body);
+        res.status(200).json({ message: "success" });
+    }
 
     makeQrCode = async (req, res) => {
+        const roomId = await chatService.findRoom(req.query.userid, 3);
+        //console.log("roomId: " + JSON.stringify(roomId));
+        const userUrl = "http://localhost:3000/chat/"+roomId.room_id;
+        //const userUrl = "https://www.naver.com";
 
-        //const userUrl = req.body.url;
-        const userUrl = "https://www.naver.com";
+        console.log("userUrl: " + userUrl);
 
         qrCode.toDataURL(userUrl, (err, url) => {
             if (err) {
@@ -34,25 +42,6 @@ class RegisterController {
 
             res.status(200).json({ imgData: url });
         });
-/*
-        qrCode.toDataURL(userUrl, (err, url) => {
-            const img = new Buffer.from(url, "base64");
-
-            if (err) {
-                console.error("QR코드 생성 실패: " + err);
-                throw err;
-            }
-            res.writeHead(200, {
-                "Content-Type": "image/png",
-                "Content-Length": img.length
-            });
-
-            res.end(img);
-
-            //TODO: QR코드 이미지 저장
-
-        });
- */
     };
 
     tempTestDir = async (req, res) => {
