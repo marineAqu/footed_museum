@@ -1,16 +1,47 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/Register.module.css';
 
 const Register = () => {
+    const [myId, setMyId] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+
+                const response = await fetch("/api/protected", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    },
+                });
+
+                if (!response.ok) {
+                    setMyId(3); //로그인하지 않은 유저의 경우 익명의 유저로 처리
+                    throw new Error('로그인 정보를 가져오는 데 실패했습니다.');
+                }
+
+                const result = await response.json();
+                setMyId(result.user.user_id);
+            } catch (error) {
+                console.error('로그인 정보 에러: ', error);
+                console.log('로그인 정보: ', myId);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        //image: null,
+        image: null,
         title: '',
         keywords: '',
         description: '',
-        status: '잃어버렸어요',
+        status: '1',
     });
 
     const handleInputChange = (e) => {
@@ -29,18 +60,18 @@ const Register = () => {
 
     const handleRegister = async () => {
         const formDataToSend = new FormData();
-        //formDataToSend.append('image', formData.image);
+        formDataToSend.append('image', formData.image);
         formDataToSend.append('title', formData.title);
         formDataToSend.append('keyword', formData.keywords);
         formDataToSend.append('content', formData.description);
-        //formDataToSend.append('status', formData.status);
+        formDataToSend.append('status', formData.status);
+        formDataToSend.append('userid', myId);
 
         try {
-            /*const response = await fetch("/api/register", {
+            const response = await fetch("/tempRegister", {
                 method: "Post",
                 headers: {
-                    /!*"Content-Type": "application/json",*!/
-                    'Content-Type': 'multipart/form-data'
+                    'Accept': 'application/json',
                 },
                 body: formDataToSend,
             });
@@ -48,7 +79,7 @@ const Register = () => {
             if (response.status === 200) {
                 alert('등록되었습니다!');
                 //navigate('/'); // TODO: 전체 게시글로 direct
-            }*/
+            }
 
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -88,8 +119,8 @@ const Register = () => {
                 <div className={styles.inputGroup}>
                     <label>주웠어요 / 잃어버렸어요</label>
                     <select name="status" value={formData.status} onChange={handleInputChange}>
-                        <option value="잃어버렸어요">잃어버렸어요</option>
-                        <option value="주웠어요">주웠어요</option>
+                        <option value="1">잃어버렸어요</option>
+                        <option value="0">주웠어요</option>
                     </select>
                 </div>
             </div>
