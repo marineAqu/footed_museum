@@ -88,6 +88,7 @@ const ChatScreen = () => {
 
                 console.log('로그인 정보: ', result.user.user_id);
             }catch (error){
+                setMyId(3);
                 console.error('로그인 정보 에러: ', error);
                 console.log('로그인 정보: ', myId);
             }
