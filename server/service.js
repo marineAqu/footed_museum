@@ -30,35 +30,7 @@ function getTemp() {
     });
 }
 
-function postRegister(title, content, imgUrl, keyword) {
-    return new Promise((resolve, reject) => {
-        connect.query('INSERT INTO Posts (title, content) values (?, ?)',
-            [title, content],
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve();
-                }
-            });
-    });
-}
-
-function postKeyword(id, keywordId) {
-    return new Promise((resolve, reject) => {
-        connect.query('INSERT INTO PostCategory (post_id, category_id) values (?, ?)',
-            [id, keywordId],
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve();
-                }
-            });
-    });
-}
 
 module.exports = {
-    getTemp,
-    postRegister
+    getTemp
 };
