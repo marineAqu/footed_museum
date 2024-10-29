@@ -4,10 +4,12 @@ const cors = require('cors');
 registerRouter.use(cors());
 const RegisterController = require('../register.controller');
 const registerController = new RegisterController();
-
+const multer = require('multer');
+const upload = multer();
 
 registerRouter.get("/tempmakeQr", registerController.makeQrCode);
-registerRouter.post("/tempRegister", registerController.resister);
+registerRouter.post("/tempRegister", upload.none(), registerController.resister);
 registerRouter.get("/tempTestDir", registerController.tempTestDir);
+registerRouter.post("/tempReal", registerController.reeealTemp);
 
 module.exports = registerRouter;
