@@ -9,11 +9,21 @@ const connect = mysql.createConnection({
     database: process.env.DATABASE
 });
 
-function makeQrCode(userUrl) {
-    //TODO: QR코드 생성
 
+function postRegister(userId, title, content, status) {
+    return new Promise((resolve, reject) => {
+        connect.query('INSERT INTO Posts (user_id, title, content, status) values (?, ?, ?, ?)',
+            [userId, title, content, status],
+            function (error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            });
+    });
 }
 
 module.exports = {
-    makeQrCode
+    postRegister
 };
