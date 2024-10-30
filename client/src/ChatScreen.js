@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import styles from './css/ChatScreen.module.css';
 
 const ChatScreen = () => {
@@ -9,7 +9,7 @@ const ChatScreen = () => {
     const [showOptions, setShowOptions] = useState(false);
     const optionsRef = useRef(null);
     const [ws, setWs] = useState(null);
-    const chatRoomId = 2;
+    const {chatRoomId} = useParams();
     const [myId, setMyId] = useState(null);
 
     //TODO
