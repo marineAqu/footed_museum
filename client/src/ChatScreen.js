@@ -9,12 +9,9 @@ const ChatScreen = () => {
     const [showOptions, setShowOptions] = useState(false);
     const optionsRef = useRef(null);
     const [ws, setWs] = useState(null);
-    const {chatRoomId} = useParams();
+    const chatRoomId = useParams();
+    const intChatRoomId = parseInt(chatRoomId.id);
     const [myId, setMyId] = useState(null);
-
-    //TODO
-    // 채팅룸 하드코딩된 거 고쳐야함
-    // 음.???;; 서버 껏다켯는데 왜 여전히 로그인정보가남아잇지
 
     const goBack = () => {
         navigate(-1); // 이전 페이지로 이동
@@ -25,7 +22,7 @@ const ChatScreen = () => {
         if (inputMessage.trim()) {
 
             if (ws && ws.readyState === WebSocket.OPEN) {
-                const message = { chatRoomId: chatRoomId, senderId: myId, senderName: '김도연', message: inputMessage }; // Replace senderId with actual user ID
+                const message = { chatRoomId: intChatRoomId, senderId: myId, senderName: '김도연', message: inputMessage }; // Replace senderId with actual user ID
                 ws.send(JSON.stringify(message));
                 setInputMessage('');
             }
