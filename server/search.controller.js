@@ -16,21 +16,20 @@ class searchController {
     // 카테고리별 상세 조회 API
     searchItems = async (req, res) => {
         try {
-            const {category_id} = req.query;
+            const {category_id, location, temp_keyword} = req.query;
 
-            // category_id들을 배열로 받으면 JSON 파싱
-            let categories = JSON.parse(category_id);
+            // category_id를 배열로 받으면 JSON 파싱
+            const categories = category_id ? JSON.parse(category_id) : null;
 
             // "입력" 카테고리가 포함되었는지 확인
-            const includesInput = categories.includes('입력');
+            const includesInput = categories && categories.includes('입력');
 
             // "입력"이라는 키워드가 있으면 전체 조회 실행
             if (includesInput && temp_keyword) {
                 const itemList = await service.searchItemsByKeyword(temp_keyword);
                 res.json({itemList});
             } else {
-                // 그 외의 경우, 선택된 category_id들로 필터링
-                const itemList = await service.searchItemsByCategory(categories);
+                const itemList = await service.searchItemsByFilters(categories, location, temp_keyword);
                 res.json({itemList});
             }
         } catch (error) {
