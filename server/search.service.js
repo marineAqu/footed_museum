@@ -59,8 +59,38 @@ function searchItemsByCategory(category_id) {
     });
 }
 
+// 임시 키워드를 이용한 검색
+function searchItemsByKeyword(keyword) {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT Posts.post_id,
+                   Posts.title,
+                   Posts.content,
+                   Posts.image_url,
+                   Categories.category_name,
+                   Posts.found_status
+            FROM Posts
+                     LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
+                     LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
+            WHERE Posts.title LIKE ?
+               OR Posts.content LIKE ?
+        `;
+
+        const keywordPattern = `%${keyword}%`;  // 키워드를 SQL LIKE 구문에 맞춰 변환
+
+        connect.query(query, [keywordPattern, keywordPattern], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
 
 module.exports = {
     getAllItems,
-    searchItemsByCategory
+    searchItemsByCategory,
+    searchItemsByKeyword
 }

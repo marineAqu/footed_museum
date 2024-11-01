@@ -25,8 +25,8 @@ class searchController {
             const includesInput = categories.includes('입력');
 
             // "입력"이라는 키워드가 있으면 전체 조회 실행
-            if (includesInput) {
-                const itemList = await service.getAllItems();
+            if (includesInput && temp_keyword) {
+                const itemList = await service.searchItemsByKeyword(temp_keyword);
                 res.json({itemList});
             } else {
                 // 그 외의 경우, 선택된 category_id들로 필터링
