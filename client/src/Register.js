@@ -4,8 +4,11 @@ import styles from './css/Register.module.css';
 
 const Register = () => {
     const [myId, setMyId] = useState(null);
+    const [preview, setPreview] = useState(null);
 
     useEffect(() => {
+        //const apitest = fetch("/visionTest");
+
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem("token");
@@ -45,11 +48,23 @@ const Register = () => {
     });
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        const { name, value, files } = e.target;
+
+        if (name === "image" && files.length > 0) {
+            // 이미지가 선택된 경우 formData에 파일을 업데이트
+            const file = files[0];
+            setFormData({
+                ...formData,
+                image: file
+            });
+            setPreview(URL.createObjectURL(file));
+        } else {
+            // 텍스트 입력 필드 등 다른 입력에 대해서도 처리
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
 
 
@@ -67,7 +82,15 @@ const Register = () => {
         formDataToSend.append('status', formData.status);
         formDataToSend.append('userid', myId);
 
+
         try {
+            const apitest = await fetch('/visionTest', {
+                method: 'POST',
+                body: formDataToSend,
+            });
+
+
+            /*
             const response = await fetch("/tempRegister", {
                 method: "Post",
                 headers: {
@@ -76,11 +99,12 @@ const Register = () => {
                 body: formDataToSend,
             });
 
+
             if (response.status === 200) {
                 alert('등록되었습니다!');
                 //navigate('/'); // TODO: 전체 게시글로 direct
             }
-
+*/
         } catch (error) {
             console.error('Error submitting form:', error);
             alert('등록에 실패했습니다.');
@@ -101,8 +125,9 @@ const Register = () => {
             </header>
             <div className={styles.form}>
                 <div className={styles.imageUpload}>
-                    <label htmlFor="image">사진 추가</label>
-                    <input type="file" id="image" name="image" />
+                    {!preview && <label htmlFor="image">사진 추가</label>}
+                    <input type="file" id="image" name="image" onChange={handleInputChange} />
+                    {preview && <img src={preview} alt="미리보기" />}
                 </div>
                 <div className={styles.inputGroup}>
                     <label>분실물 제목 입력</label>
