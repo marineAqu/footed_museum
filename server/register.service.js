@@ -38,7 +38,23 @@ function postKeyword(id, keywordId) {
     });
 }
 
+async function visionAPI(img){
+    const vision = require('@google-cloud/vision');
+
+    // client 생성
+    const client = new vision.ImageAnnotatorClient({
+       keyFilename: './key.json'
+    });
+
+    const [result] = await client.objectLocalization({ image: { content: img.toString('base64') } });
+    //const labels = result.labelAnnotations;
+    const labels = result.localizedObjectAnnotations;
+    console.log('object:');
+    labels.forEach(label => console.log(label.name));
+}
+
 module.exports = {
     postRegister,
-    postKeyword
+    postKeyword,
+    visionAPI
 };
