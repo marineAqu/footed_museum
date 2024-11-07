@@ -53,6 +53,18 @@ class RegisterController {
         console.log("res: " + JSON.stringify({ getTemp }));
         res.json({ getTemp });
     };
+
+    visionAPI = async (req, res) => {
+
+        if (!req.file) {
+            console.log("No file uploaded");
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+
+        await registerService.visionAPI(req.file.buffer);
+
+        res.json({ message: "success" });
+    };
 }
 
 module.exports = RegisterController;
