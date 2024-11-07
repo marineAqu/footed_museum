@@ -11,5 +11,6 @@ registerRouter.get("/tempmakeQr", registerController.makeQrCode);
 registerRouter.post("/tempRegister", upload.none(), registerController.resister);
 registerRouter.get("/tempTestDir", registerController.tempTestDir);
 registerRouter.post("/tempReal", registerController.reeealTemp);
+registerRouter.post("/visionTest", upload.single('image'), registerController.visionAPI);
 
 module.exports = registerRouter;
