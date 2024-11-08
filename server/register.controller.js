@@ -61,9 +61,11 @@ class RegisterController {
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        await registerService.visionAPI(req.file.buffer);
+        const object = await registerService.visionAPI(req.file.buffer);
 
-        res.json({ message: "success" });
+        //console.log("object: " + JSON.stringify(object));
+
+        res.json({ object });
     };
 }
 
