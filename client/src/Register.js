@@ -6,9 +6,13 @@ const Register = () => {
     const [myId, setMyId] = useState(null);
     const [preview, setPreview] = useState(null);
 
-    useEffect(() => {
-        //const apitest = fetch("/visionTest");
+    const [image, setImage] = useState(null);
+    const [title, setTitle] = useState('');
+    const [keywords, setKeywords] = useState('');
+    const [description, setDescription] = useState('');
+    const [status, setStatus] = useState('1');
 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem("token");
@@ -39,35 +43,12 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        image: null,
-        title: '',
-        keywords: '',
-        description: '',
-        status: '1',
-    });
 
-    const handleInputChange = (e) => {
-        const { name, value, files } = e.target;
-
-        if (name === "image" && files.length > 0) {
-            // 이미지가 선택된 경우 formData에 파일을 업데이트
-            const file = files[0];
-            setFormData({
-                ...formData,
-                image: file
-            });
-            setPreview(URL.createObjectURL(file));
-        } else {
-            // 텍스트 입력 필드 등 다른 입력에 대해서도 처리
-            setFormData({
-                ...formData,
-                [name]: value
-            });
-        }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+        setPreview(URL.createObjectURL(file));
     };
-
-
 
     const goBack = () => {
         navigate(-1);
@@ -75,19 +56,23 @@ const Register = () => {
 
     const handleRegister = async () => {
         const formDataToSend = new FormData();
-        formDataToSend.append('image', formData.image);
-        formDataToSend.append('title', formData.title);
-        formDataToSend.append('keyword', formData.keywords);
-        formDataToSend.append('content', formData.description);
-        formDataToSend.append('status', formData.status);
+        formDataToSend.append('image', image);
+        formDataToSend.append('title', title);
+        formDataToSend.append('keyword', keywords);
+        formDataToSend.append('content', description);
+        formDataToSend.append('status', status);
         formDataToSend.append('userid', myId);
 
 
         try {
-            const apitest = await fetch('/visionTest', {
+            const objectResponse = await fetch('/visionTest', {
                 method: 'POST',
                 body: formDataToSend,
             });
+
+            const objectResult = await objectResponse.json();
+
+            setKeywords(objectResult.object);
 
 
             /*
@@ -126,24 +111,33 @@ const Register = () => {
             <div className={styles.form}>
                 <div className={styles.imageUpload}>
                     {!preview && <label htmlFor="image">사진 추가</label>}
-                    <input type="file" id="image" name="image" onChange={handleInputChange} />
+                    <input type="file" id="image" name="image"
+                    onChange={handleImageChange}
+                    />
                     {preview && <img src={preview} alt="미리보기" />}
                 </div>
                 <div className={styles.inputGroup}>
                     <label>분실물 제목 입력</label>
-                    <input type="text" name="title" value={formData.title} onChange={handleInputChange} />
+                    <input type="text" name="title" value={title}
+                           onChange={(e) => setTitle(e.target.value)} // 입력 값 변경 시 상태 업데이트
+                    />
                 </div>
                 <div className={styles.inputGroup}>
                     <label>인식된 키워드 확인/수정</label>
-                    <input type="text" name="keywords" value={formData.keywords} onChange={handleInputChange} />
+                    <input type="text" name="keywords" value={keywords}
+                           onChange={(e) => setKeywords(e.target.value)} // 입력 값 변경 시 상태 업데이트
+                    />
                 </div>
                 <div className={styles.inputGroup}>
                     <label>기타 상세 설명</label>
-                    <textarea rows="4" name="description" value={formData.description} onChange={handleInputChange} />
+                    <textarea rows="4" name="description" value={description}
+                              onChange={(e) => setDescription(e.target.value)} />
                 </div>
                 <div className={styles.inputGroup}>
                     <label>주웠어요 / 잃어버렸어요</label>
-                    <select name="status" value={formData.status} onChange={handleInputChange}>
+                    <select name="status" value={status}
+                            onChange={(e) => setStatus(e.target.value)} // 입력 값 변경 시 상태 업데이트
+                    >
                         <option value="1">잃어버렸어요</option>
                         <option value="0">주웠어요</option>
                     </select>
