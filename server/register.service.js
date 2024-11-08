@@ -40,17 +40,35 @@ function postKeyword(id, keywordId) {
 
 async function visionAPI(img){
     const vision = require('@google-cloud/vision');
+    const {Translate} = require('@google-cloud/translate').v2;
 
     // client 생성
-    const client = new vision.ImageAnnotatorClient({
+    const visionClient = new vision.ImageAnnotatorClient({
        keyFilename: './key.json'
     });
 
-    const [result] = await client.objectLocalization({ image: { content: img.toString('base64') } });
+    //객체 인식
+    const [result] = await visionClient.objectLocalization({ image: { content: img.toString('base64') } });
     //const labels = result.labelAnnotations;
     const labels = result.localizedObjectAnnotations;
     console.log('object:');
     labels.forEach(label => console.log(label.name));
+
+    //번역
+    const transClient = new Translate({
+        keyFilename: './key.json'
+    });
+
+    // 모든 label.name을 번역
+    const translated = await Promise.all(
+        labels.map(async (label) => {
+            const [translatedName] = await transClient.translate(label.name, {from: 'en', to: 'ko'});
+            return translatedName;
+        })
+    );
+    console.log("translated: "+translated);
+
+    return translated;
 }
 
 module.exports = {
