@@ -44,10 +44,25 @@ const Register = () => {
     const navigate = useNavigate();
 
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         setImage(file);
         setPreview(URL.createObjectURL(file));
+
+        const imgFormData = new FormData();
+        imgFormData.append('image', file);
+
+        try {
+            const objectResponse = await fetch('/visionTest', {
+                method: 'POST',
+                body: imgFormData,
+            });
+
+            const objectResult = await objectResponse.json();
+            setKeywords(objectResult.object);
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     const goBack = () => {
@@ -63,19 +78,7 @@ const Register = () => {
         formDataToSend.append('status', status);
         formDataToSend.append('userid', myId);
 
-
         try {
-            const objectResponse = await fetch('/visionTest', {
-                method: 'POST',
-                body: formDataToSend,
-            });
-
-            const objectResult = await objectResponse.json();
-
-            setKeywords(objectResult.object);
-
-
-            /*
             const response = await fetch("/tempRegister", {
                 method: "Post",
                 headers: {
@@ -89,7 +92,7 @@ const Register = () => {
                 alert('등록되었습니다!');
                 //navigate('/'); // TODO: 전체 게시글로 direct
             }
-*/
+
         } catch (error) {
             console.error('Error submitting form:', error);
             alert('등록에 실패했습니다.');
