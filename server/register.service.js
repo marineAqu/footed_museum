@@ -1,6 +1,13 @@
 require('dotenv').config();
 const qrCode = require('qrcode');
 const mysql = require("mysql");
+const { Storage } = require("@google-cloud/storage");
+const path = require('path');
+
+const storage = new Storage({
+    keyFilename: path.join(__dirname, './key.json'), // JSON 키 파일 경로
+});
+const bucketName = 'footed_museum';
 
 const connect = mysql.createConnection({
     host: process.env.HOST,
@@ -9,8 +16,33 @@ const connect = mysql.createConnection({
     database: process.env.DATABASE
 });
 
+async function uploadFileToGCS(file) {
+    const bucket = storage.bucket(bucketName);
+    const gcsFileName = Date.now() + '-tedddmp.jpg';
+    const blob = bucket.file(gcsFileName);
+    const blobStream = blob.createWriteStream({
+        resumable: false,
+    });
 
-function postRegister(userId, title, content, status) {
+    return new Promise((resolve, reject) => {
+        blobStream.on('error', (err) => {
+            console.error('GCS Upload Error:', err);
+            reject(err);
+        });
+
+        blobStream.on('finish', () => {
+            const publicUrl = `https://storage.googleapis.com/${bucketName}/${gcsFileName}`;
+            resolve(publicUrl);
+        });
+
+        blobStream.end(file.buffer); // 버퍼에 담긴 파일 데이터 업로드
+    });
+}
+
+function postRegister(userId, title, content, status, img) {
+
+    //uploadFileToGCS(img);
+
     return new Promise((resolve, reject) => {
         connect.query('INSERT INTO Posts (user_id, title, content, status) values (?, ?, ?, ?)',
             [userId, title, content, status],
