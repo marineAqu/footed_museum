@@ -13,7 +13,7 @@ class RegisterController {
     resister = async (req, res) => {
         //TODO: 프론트에서 keyword_id로 변경해서 전달해주거나 이 사이에서 keyword를 keyword_id로 변경하는 과정 추가 필요
         const { userid, title, keyword, content, status } = await req.body;
-        const getTemp = await registerService.postRegister(userid, title, content, status);
+        await registerService.postRegister(userid, title, content, status, req.file);
 
         //for (let i = 0; i < req.body.keywordId.length; i++)
         //    await registerService.postKeyword(req.body.postId, req.body.keywordId[i]);
