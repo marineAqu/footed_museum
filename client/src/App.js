@@ -31,7 +31,7 @@ function App() {
         <Route path="/search" element={<SearchModal />} />
         <Route path="/map" element={<Map />} />
         <Route path="/QrManagement" element={<QrManagement />} />
-        <Route path="/item-detail" element={<ItemDetail />} />
+        <Route path="/item-detail/:postId" element={<ItemDetail />} />
         <Route path="/chat" element={<ChatList />} />
         <Route path="/chat/:id" element={<ChatScreen />} />
         <Route path="/search-results" element={<SearchResults />} />

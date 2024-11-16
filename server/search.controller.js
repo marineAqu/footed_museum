@@ -1,5 +1,7 @@
 const service = require('./search.service.js');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
+
 
 class searchController {
 
@@ -35,6 +37,57 @@ class searchController {
         } catch (error) {
             console.error("에러 발생: " + error);
             res.status(500).json({error: "서버 내부 오류 발생"});
+        }
+    };
+
+    getItemDetail = async (req, res) => {
+        const { postId } = req.params;
+
+        try {
+            const itemDetail = await service.getItemDetailById(postId);
+
+            if (!itemDetail) {
+                return res.status(404).json({ error: '해당 게시글을 찾을 수 없습니다.' });
+            }
+
+            res.json(itemDetail);
+        } catch (error) {
+            console.error("에러 발생:", error);
+            res.status(500).json({ error: "서버 내부 오류 발생" });
+        }
+    };
+
+    getUserPosts = async (req, res) => {
+        console.log('요청 수신: /api/PostList');
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            console.log('Authorization 헤더 없음');
+            return res.status(401).json({ error: '인증 헤더가 제공되지 않았습니다.' });
+        }
+
+        const token = authHeader.split(' ')[1];
+        console.log('JWT 토큰:', token);
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            console.log('디코딩된 토큰:', decoded);
+
+            if (!decoded || !decoded.userId) {
+                console.log('유효하지 않은 토큰');
+                return res.status(401).json({ error: '유효하지 않은 토큰입니다.' });
+            }
+
+            const userId = decoded.userId;
+            console.log('받은 userId:', userId);
+
+            const posts = await service.getUserPosts(userId);
+            console.log('DB에서 반환된 데이터:', posts);
+
+            res.json({ itemList: posts });
+        } catch (error) {
+            console.error('서버 오류:', error);
+            res.status(500).json({ error: '서버 내부 오류 발생' });
         }
     };
 }

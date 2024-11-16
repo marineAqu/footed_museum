@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 
 const connect = mysql.createConnection({
@@ -9,10 +9,6 @@ const connect = mysql.createConnection({
     database: process.env.DATABASE
 });
 
-
-//TODO
-// 임시 found_status를 status로 수정
-
 //전체 분실물 목록 조회
 function getAllItems() {
     return new Promise((resolve, reject) => {
@@ -20,9 +16,10 @@ function getAllItems() {
             SELECT Posts.post_id,
                    Posts.title,
                    Posts.content,
-                   Posts.image_url,
+                   Posts.image,
+                   Posts.post_date,
                    Categories.category_name,
-                   Posts.found_status
+                   Posts.status
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
                      LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
@@ -43,9 +40,9 @@ function searchItemsByCategory(category_id) {
             SELECT Posts.post_id,
                    Posts.title,
                    Posts.content,
-                   Posts.image_url,
+                   Posts.image,
                    Categories.category_name,
-                   Posts.found_status
+                   Posts.status
                    Posts.location
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
@@ -72,9 +69,9 @@ function searchItemsByKeyword(keyword) {
             SELECT Posts.post_id,
                    Posts.title,
                    Posts.content,
-                   Posts.image_url,
+                   Posts.image,
                    Categories.category_name,
-                   Posts.found_status
+                   Posts.status
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
                      LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
@@ -101,9 +98,9 @@ function searchItemsByFilters(categories, location, keyword) {
             SELECT Posts.post_id,
                    Posts.title,
                    Posts.content,
-                   Posts.image_url,
+                   Posts.image,
                    Categories.category_name,
-                   Posts.found_status,
+                   Posts.status,
                    Posts.location
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
@@ -141,10 +138,69 @@ function searchItemsByFilters(categories, location, keyword) {
     });
 }
 
+function getItemDetailById(postId) {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT
+                Posts.title,
+                Posts.content,
+                COALESCE(Posts.image, 'default_image.png') AS image,
+                Posts.status,
+                DATE_FORMAT(Posts.post_date, '%Y-%m-%d') AS date,
+                GROUP_CONCAT(Categories.category_name) AS keywords
+            FROM Posts
+                LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
+                LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
+            WHERE Posts.post_id = ?
+            GROUP BY Posts.post_id
+        `;
+
+        connect.query(query, [postId], (error, results) => {
+            if (error) {
+                return reject(error);
+            } else {
+
+            }
+            resolve(results[0]);
+        });
+    });
+}
+
+function getUserPosts(userId) {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT
+                Posts.post_id,
+                Posts.title,
+                Posts.content,
+                COALESCE(Posts.image, 'default_image.png') AS image,
+                DATE_FORMAT(Posts.post_date, '%Y-%m-%d') AS post_date,
+                Posts.status,
+                GROUP_CONCAT(Categories.category_name) AS category_name
+            FROM Posts
+                     LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
+                     LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
+            WHERE Posts.user_id = ?
+            GROUP BY Posts.post_id
+        `;
+
+        connect.query(query, [userId], (error, results) => {
+            if (error) {
+                return reject(error); // 에러 발생 시 리젝트
+            }
+            resolve(results); // 결과 반환
+        });
+    });
+}
+
+
+
 
 module.exports = {
     getAllItems,
     searchItemsByCategory,
     searchItemsByKeyword,
-    searchItemsByFilters
+    searchItemsByFilters,
+    getItemDetailById,
+    getUserPosts
 }

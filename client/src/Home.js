@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/Home.module.css';
 import SearchModal from './SearchModal.js';
 
 const Home = () => {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [posts, setPosts] = useState([]); // 전체 게시글 데이터 저장
+    const [error, setError] = useState(null); // 에러 메시지 저장
     const navigate = useNavigate();
 
     const openSearchModal = () => {
@@ -15,51 +17,30 @@ const Home = () => {
         setIsSearchModalOpen(false);  // 모달 닫기
     };
 
-    const posts = [
-        //예시 게시글들 fetch로 api따오면이렇게되겟죠
-        {
-            title: '에어팟 찾아요',
-            status: '잃어버렸어요',
-            date: '2024-09-01', 
-            image: 'item1.png',
-            keywords: ['에어팟', '검정', 'IT']
-        },
-        {
-            title: '체크카드 주웠습니다.',
-            status: '주웠어요',
-            date: '2024-09-02',
-            image: 'item2.png',
-            keywords: ['카드', '노랑', '학생회관']
-        },
-        {
-            title: '혹시 카드 보신 분!!',
-            status: '잃어버렸어요',
-            date: '2024-09-04', 
-            image: 'item4.png',
-            keywords: ['카드', '파랑', '인문대']
-        },
-        {
-            title: '마루인형키링 주운 사람..',
-            status: '잃어버렸어요',
-            date: '2024-09-05', 
-            image: 'item5.png',
-            keywords: ['인형', '마루', '학생회관']
-        },
-        {
-            title: '틴트 보신 분 계신가요?',
-            status: '잃어버렸어요',
-            date: '2024-09-06', 
-            image: 'item6.png',
-            keywords: ['틴트', '빨간', '법정대']
-        },
-        {
-            title: '버즈 찾아요.',
-            status: '잃어버렸어요',
-            date: '2024-09-07', 
-            image: 'item7.png',
-            keywords: ['버즈', '보라', '미래']
-        },
-    ];
+    const fetchPosts = async () => {
+        try {
+            const response = await fetch('/api/item/all', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('전체 게시글 데이터를 불러오는 데 실패했습니다.');
+            }
+
+            const data = await response.json();
+            setPosts(data.itemList); // 백엔드에서 가져온 게시글 데이터 저장
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
+    // 페이지 로드 시 전체 게시글 데이터 가져오기
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
     const goToProfile = () => {
         navigate('/Profile');
@@ -82,9 +63,9 @@ const Home = () => {
     };
 
     const goToItemDetail = (item) => {
-        navigate('/item-detail', { state: item }); // 상세 화면으로 이동, 선택한 항목 전달
+        console.log('Navigating to item detail with:', item);
+        navigate(`/item-detail/${item.post_id}`); // 상세 화면으로 이동, 선택한 항목 전달
     };
-
 
     return (
         <div className={styles.Home}>
@@ -96,26 +77,33 @@ const Home = () => {
             {isSearchModalOpen && <SearchModal onClose={closeSearchModal} />}
 
             <div className={styles.content}>
-                {posts.map((post, index) => (
-                    <div key={index} className={styles.post}  onClick={() => goToItemDetail(post)}>
-                        <div className={styles.postInfo}>
-                            <h2>{post.title}</h2>
-                            <p>{post.status}</p>
-                            <p className={styles.postDate}>{post.date}</p>
+                {error ? (
+                    <p className={styles.error}>{error}</p>
+                ) : posts.length > 0 ? (
+                    posts.map((post, index) => (
+                        <div key={index} className={styles.post} onClick={() => goToItemDetail(post)}>
+                            <div className={styles.postInfo}>
+                                <h2>{post.title}</h2>
+                                <p>{post?.status === '1' ? '잃어버렸어요' : '주웠어요'}</p>
+                                <p className={styles.postDate}>{post.post_date ? new Date(post.post_date).toLocaleDateString() : '날짜 정보 없음'}</p>
+                            </div>
+                            <img src={post.image || 'default_image.png'} alt="분실물" className={styles.postImage} />
                         </div>
-                        <img src={post.image} alt="분실물" className={styles.postImage} />
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p className={styles.noPosts}>등록된 글이 없습니다.</p>
+                )}
             </div>
+
             <nav className={styles.navbar}>
                 <button className={styles.navButton}>홈</button>
                 <button className={styles.navButton} onClick={goToMap}>지도</button>
                 <button className={styles.navButton} onClick={goToChat}>채팅</button>
                 <button className={styles.navButton} onClick={goToProfile}>프로필</button>
             </nav>
-
         </div>
     );
 };
 
 export default Home;
+

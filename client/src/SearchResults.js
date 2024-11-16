@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './css/SearchResults.module.css';
@@ -94,3 +95,79 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
+ */
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './css/SearchResults.module.css';
+
+const SearchResults = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const { category_id, location: locationFilter, temp_keyword } = location.state || {};
+    const [filteredPosts, setFilteredPosts] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            try {
+                const queryParams = new URLSearchParams();
+
+                if (category_id) queryParams.append('category_id', JSON.stringify(category_id));
+                if (locationFilter) queryParams.append('location', locationFilter);
+                if (temp_keyword) queryParams.append('temp_keyword', temp_keyword);
+
+                const response = await fetch(`/api/item/search?${queryParams.toString()}`);
+
+                if (!response.ok) {
+                    throw new Error('검색 결과를 가져오는 데 실패했습니다.');
+                }
+
+                const data = await response.json();
+                setFilteredPosts(data.itemList);
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+
+        fetchSearchResults();
+    }, [category_id, locationFilter, temp_keyword]);
+
+    const goBack = () => {
+        navigate(-1);
+    };
+
+    const handleDoubleClick = (post) => {
+        navigate(`/item-detail/${post.post_id}`);
+    };
+
+    return (
+        <div className={styles.resultsContainer}>
+            <header className={styles.header}>
+                <button className={styles.backButton} onClick={goBack}>&lt;</button>
+                <span className={styles.title}>검색 결과</span>
+            </header>
+            {error ? (
+                <p className={styles.error}>{error}</p>
+            ) : filteredPosts.length > 0 ? (
+                filteredPosts.map((post, index) => (
+                    <div
+                        key={index}
+                        className={styles.resultItem}
+                        onDoubleClick={() => handleDoubleClick(post)}
+                    >
+                        <img src={post.image || 'default_image.png'} alt={post.title} className={styles.resultImage}/>
+                        <h3>{post.title}</h3>
+                        <p>{post.status === '1' ? '잃어버렸어요' : '주웠어요'}</p>
+                        <p className={styles.postDate}>{post.post_date ? new Date(post.post_date).toLocaleDateString() : '날짜 정보 없음'}</p>
+                    </div>
+                ))
+            ) : (
+                <p className={styles.noResults}>검색 결과가 없습니다.</p>
+            )}
+        </div>
+    );
+};
+
+export default SearchResults;
+

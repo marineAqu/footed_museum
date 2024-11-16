@@ -4,10 +4,13 @@ import styles from './css/SearchModal.module.css';
 
 const SearchModal = ({ onClose }) => {
     const navigate = useNavigate();
+
+    // State variables
     const [selectedKeywords, setSelectedKeywords] = useState([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState({ 물건: false, 색상: false, 장소: false });
     const [isCustomInputVisible, setIsCustomInputVisible] = useState(false); // 입력창 표시 상태
     const [inputValue, setInputValue] = useState(''); // 사용자 입력 값
+
     const [options] = useState({
         물건: ['지갑', '이어폰', '카드', '기타', '입력'],
         색상: ['빨강', '파랑', '검정', '흰색', '노랑', '초록', '보라'],
@@ -25,7 +28,6 @@ const SearchModal = ({ onClose }) => {
         setSelectedKeywords(selectedKeywords.filter(item => item !== keyword));
     };
 
-    // 한 번에 하나의 드롭다운만 열리도록 수정된 함수
     const toggleDropdown = (category) => {
         setIsDropdownOpen({
             물건: category === '물건' ? !isDropdownOpen.물건 : false,
@@ -36,7 +38,7 @@ const SearchModal = ({ onClose }) => {
 
     const closeAllDropdowns = () => {
         setIsDropdownOpen({ 물건: false, 색상: false, 장소: false });
-        setIsCustomInputVisible(false); // 드롭다운이 닫히면 입력창도 닫기
+        setIsCustomInputVisible(false); // 입력창도 닫기
     };
 
     const goBack = () => {
@@ -44,16 +46,23 @@ const SearchModal = ({ onClose }) => {
     };
 
     const handleSearch = () => {
-        // 선택된 키워드들을 검색 결과 페이지로 전달
         if (selectedKeywords.length > 0) {
-            navigate('/search-results', { state: { keywords: selectedKeywords } });
+            const category_id = selectedKeywords.filter(
+                keyword => options.물건.includes(keyword) || options.색상.includes(keyword)
+            );
+            const location = selectedKeywords.find(keyword => options.장소.includes(keyword));
+            const temp_keyword = selectedKeywords.find(keyword => !options.물건.includes(keyword) && !options.색상.includes(keyword) && !options.장소.includes(keyword));
+
+            navigate('/search-results', {
+                state: { category_id, location, temp_keyword }
+            });
         } else {
-            alert('키워드를 선택해주세요.'); // 키워드 선택이 없을 경우 경고 메시지
+            alert('키워드를 선택해주세요.');
         }
     };
 
     const toggleCustomInput = () => {
-        setIsCustomInputVisible(!isCustomInputVisible); // 입력창 표시 토글
+        setIsCustomInputVisible(!isCustomInputVisible);
     };
 
     const handleInputChange = (e) => {
@@ -64,7 +73,7 @@ const SearchModal = ({ onClose }) => {
         if (inputValue.trim() && !selectedKeywords.includes(inputValue)) {
             setSelectedKeywords([...selectedKeywords, inputValue.trim()]);
             setInputValue('');
-            setIsCustomInputVisible(false); // 등록 후 입력창 숨기기
+            setIsCustomInputVisible(false);
         }
     };
 
@@ -113,7 +122,6 @@ const SearchModal = ({ onClose }) => {
                                 {option}
                             </div>
                         ))}
-                        {/* 입력창과 등록 버튼 */}
                         {isCustomInputVisible && (
                             <div className={styles.customInputContainer}>
                                 <input
@@ -156,3 +164,6 @@ const SearchModal = ({ onClose }) => {
 };
 
 export default SearchModal;
+
+
+
