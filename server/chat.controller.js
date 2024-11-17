@@ -3,7 +3,7 @@ require('dotenv').config();
 
 class ChatController {
     chatlist = async (req, res) => {
-        const chatlist = await service.chatlist(req.body.userid);
+        const chatlist = await service.chatlist(req.query.userid);
 
         res.status(200).json({ chatlist });
     };
