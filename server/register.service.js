@@ -39,33 +39,63 @@ async function uploadFileToGCS(file, postid) {
     });
 }
 
-function postRegister(userId, title, content, status, img) {
-
-    const result = new Promise((resolve, reject) => {
-        connect.query('INSERT INTO Posts (user_id, title, content, status) values (?, ?, ?, ?)',
-            [userId, title, content, status],
-            function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    console.log("a");
-                    resolve(result.insertId);
+async function postRegister(userId, title, content, status, img) {
+    try {
+        const insertId = await new Promise((resolve, reject) => {
+            connect.query(
+                'INSERT INTO Posts (user_id, title, content, status) VALUES (?, ?, ?, ?)',
+                [userId, title, content, status],
+                (error, result) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(result.insertId);
+                    }
                 }
-            });
-    });
+            );
+        });
 
-    result.then((insertId) => {
-        console.log('Inserted row ID:', insertId);
-        if(img) uploadFileToGCS(img, insertId);
-    }).catch((error) => {
+        if (img) {
+            await uploadFileToGCS(img, insertId); // 이미지 업로드가 완료되기를 기다림
+        }
+
+        return insertId; // insertId 반환
+    } catch (error) {
         console.error('Error:', error);
-    });
-
+        throw error; // 에러 발생 시 throw로 전달
+    }
 }
 
-function postKeyword(id, keywordId) {
-    return new Promise((resolve, reject) => {
-        connect.query('INSERT INTO Category (post_id, category_id) values (?, ?)',
+
+function postKeyword(postid, keyword) {
+    connect.query('SELECT count(category_name) as count from categories where category_name = ?',
+        [keyword],
+        function (error, result) {
+        console.log("result[0].count "+result[0].count);
+            if(result[0].count === 0){
+                console.log('postKeyword 안에서 keyword: ', keyword);
+
+                connect.query('INSERT INTO Categories (category_name) values (?)',
+                    [keyword],
+                    function (error, result) {
+                        if (error) {
+                            console.error('Error:', error);
+                        }
+                        else{
+                            connect.query('INSERT INTO postcategory (post_id, category_id) values (?, ?)',
+                                [postid, result.insertId],
+                                function (error, result) {
+                                    if (error) {
+                                        console.error('Error:', error);
+                                    }
+                                });
+                        }
+                    });
+            }
+        });
+
+    /* return new Promise((resolve, reject) => {
+        connect.query('INSERT INTO Categories (post_id, category_id) values (?, ?)',
             [id, keywordId],
             function (error, result) {
                 if (error) {
@@ -75,6 +105,7 @@ function postKeyword(id, keywordId) {
                 }
             });
     });
+     */
 }
 
 async function visionAPI(img){
