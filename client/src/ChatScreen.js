@@ -91,8 +91,19 @@ const ChatScreen = () => {
             }
         };
 
-        fetchData();
+        const pastMessages = async () => {
+            const messageList = await fetch(`/chat/get_messages/${intChatRoomId}`);
+            const messageListData = await messageList.json();
 
+            console.log('메시지 리스트: ', messageListData);
+
+            messageListData.messages.forEach((msg) => {
+                setMessages((prevMessages) => [...prevMessages, msg]);
+            });
+        };
+
+        fetchData();
+        pastMessages();
 
 
         const socket = new WebSocket('ws://localhost:8008');
