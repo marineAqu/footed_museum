@@ -34,9 +34,18 @@ const Login = () => {
                 throw new Error(errorData.error);
             }
 
+
             const data = await response.json();
+            console.log('data', data);
             const token = data.token;
+            const userId = data.user.user_id;
+
+            console.log('저장될 user_id:', userId);
             localStorage.setItem('token', token); // JWT 토큰 저장
+            localStorage.setItem('user_id', userId);
+
+            console.log('user_id 저장:', localStorage.getItem('user_id'));
+            console.log('keys', Object.keys(localStorage));
 
             // 로그인 성공 시 홈으로 이동
             navigate('/Home');
