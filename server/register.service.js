@@ -39,12 +39,12 @@ async function uploadFileToGCS(file, postid) {
     });
 }
 
-async function postRegister(userId, title, content, status, img) {
+async function postRegister(userId, title, location, content, status, img) {
     try {
         const insertId = await new Promise((resolve, reject) => {
             connect.query(
-                'INSERT INTO Posts (user_id, title, content, status) VALUES (?, ?, ?, ?)',
-                [userId, title, content, status],
+                'INSERT INTO Posts (user_id, title, location, content, status) VALUES (?, ?, ?, ?, ?)',
+                [userId, title, location, content, status],
                 (error, result) => {
                     if (error) {
                         reject(error);
