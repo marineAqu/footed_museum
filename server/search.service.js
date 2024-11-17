@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mysql = require("mysql2");
+const mysql = require("mysql");
 
 
 const connect = mysql.createConnection({
@@ -158,10 +158,15 @@ function getItemDetailById(postId) {
         connect.query(query, [postId], (error, results) => {
             if (error) {
                 return reject(error);
-            } else {
-
             }
-            resolve(results[0]);
+            if (results.length === 0) {
+                return resolve(null); // 데이터 없을 때 null 반환
+            }
+
+            resolve({
+                ...results[0],
+                keywords: results[0].keywords ? results[0].keywords.split(',') : [] // 키워드 배열 변환
+            });
         });
     });
 }

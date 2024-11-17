@@ -66,14 +66,14 @@ const ItemDetail = () => {
 
                 {/* 키워드들 출력 */}
                 <div className={styles.keywordButtons}>
-                    {itemDetail?.keywords && itemDetail.keywords.length > 0 ? (
+                    {itemDetail?.keywords && Array.isArray(itemDetail.keywords) && itemDetail.keywords.length > 0 ? (
                         itemDetail.keywords.map((keyword, index) => (
                             <button key={index} className={styles.keywordButton}>
                                 {keyword}
                             </button>
                         ))
                     ) : (
-                        <p className={styles.noKeywords}>키워드가 없습니다.</p> // 키워드 없을 때 메시지
+                        <p className={styles.keywordButtons}>키워드가 없습니다.</p>
                     )}
                 </div>
 
