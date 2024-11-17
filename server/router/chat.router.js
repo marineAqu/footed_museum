@@ -7,6 +7,6 @@ const chatController = new ChatController();
 
 chatRouter.get("/chat/lists", chatController.chatlist);
 chatRouter.get("/chat/make_rooms", chatController.makeChatRoom);
-chatRouter.get("/chat/get_messages", chatController.getMessages);
+chatRouter.get("/chat/get_messages/:chatRoomId", chatController.getMessages);
 
 module.exports = chatRouter;
