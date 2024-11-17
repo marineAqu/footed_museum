@@ -10,8 +10,8 @@ const connect = mysql.createConnection({
 
 function chatlist(userid) {
     return new Promise((resolve, reject) => {
-        connect.query('select * from ChatRooms where user_id = ?',
-            [userid],
+        connect.query('select * from ChatRooms where user1_id = ? or user_id2 = ?',
+            [userid, userid],
             function (error, result) {
                 if (error) {
                     reject(error);
@@ -24,7 +24,7 @@ function chatlist(userid) {
 
 function makeNewRoom(user1, user2){
     return new Promise((resolve, reject) => {
-        connect.query('INSERT INTO ChatRooms (user1_id, user2_id) values (?, ?)',
+        connect.query('INSERT INTO ChatRooms (user1_id, user_id2) values (?, ?)',
             [user1, user2],
             function (error, result) {
                 if (error) {
@@ -69,7 +69,7 @@ function sendMessage(chatRoomId, senderId, message) {
 
 function getMessages(chatRoomId) {
     return new Promise((resolve, reject) => {
-        connect.query('SELECT * FROM Messages WHERE chat_room_id = ? ORDER BY created_at ASC',
+        connect.query('SELECT sender_id as senderId, message_content as message FROM Messages WHERE room_id = ? ORDER BY sent_at ASC',
             [chatRoomId],
             function (error, result) {
                 if (error) {
