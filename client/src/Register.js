@@ -135,6 +135,7 @@ const Register = () => {
                     <input type="text" name="keywords" value={keywords}
                            onChange={(e) => setKeywords(e.target.value)}
                     />
+
                 </div>
                 <div className={styles.inputGroup}>
                     <label>장소 선택</label>
