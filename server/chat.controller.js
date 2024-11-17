@@ -15,9 +15,10 @@ class ChatController {
     };
 
     getMessages = async (req, res) => {
-        const { chatRoomId } = req.query;
+        const { chatRoomId } = req.params;
         try {
             const messages = await service.getMessages(chatRoomId);
+            console.log('messages: ', messages);
             res.status(200).json({ messages });
         } catch (error) {
             res.status(500).json({ error: "Failed to get messages" });
