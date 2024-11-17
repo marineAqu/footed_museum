@@ -84,7 +84,10 @@ const Home = () => {
                         <div key={index} className={styles.post} onClick={() => goToItemDetail(post)}>
                             <div className={styles.postInfo}>
                                 <h2>{post.title}</h2>
-                                <p>{post?.status === '1' ? '잃어버렸어요' : '주웠어요'}</p>
+                                <p>
+                                    {post?.status === '1' ? '잃어버렸어요' : '주웠어요'}
+                                    {` | ${post.location || '장소 없음'}`}
+                                </p>
                                 <p className={styles.postDate}>{post.post_date ? new Date(post.post_date).toLocaleDateString() : '날짜 정보 없음'}</p>
                             </div>
                             <img src={'https://storage.cloud.google.com/footed_museum/'+post.post_id+'.jpg' || 'default_image.png'} alt="분실물" className={styles.postImage} />
