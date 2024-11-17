@@ -9,6 +9,7 @@ const Register = () => {
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState('');
     const [keywords, setKeywords] = useState('');
+    const [location, setLocation] = useState('');   //여기 추가
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('1');
 
@@ -74,6 +75,7 @@ const Register = () => {
         formDataToSend.append('image', image);
         formDataToSend.append('title', title);
         formDataToSend.append('keyword', keywords);
+        formDataToSend.append('location', location);    //여기 추가
         formDataToSend.append('content', description);
         formDataToSend.append('status', status);
         formDataToSend.append('userid', myId);
@@ -115,7 +117,7 @@ const Register = () => {
                 <div className={styles.imageUpload}>
                     {!preview && <label htmlFor="image">사진 추가</label>}
                     <input type="file" id="image" name="image"
-                    onChange={handleImageChange}
+                           onChange={handleImageChange}
                     />
                     {preview && <img src={preview} alt="미리보기" />}
                 </div>
@@ -130,6 +132,10 @@ const Register = () => {
                     <input type="text" name="keywords" value={keywords}
                            onChange={(e) => setKeywords(e.target.value)} // 입력 값 변경 시 상태 업데이트
                     />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>장소 입력</label>
+                    <input type="text" name="location" value={location} onChange={(e) => setLocation(e.target.value)} />
                 </div>
                 <div className={styles.inputGroup}>
                     <label>기타 상세 설명</label>
