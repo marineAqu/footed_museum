@@ -12,8 +12,8 @@ const upload = multer({
 class RegisterController {
     resister = async (req, res) => {
         //TODO: 프론트에서 keyword_id로 변경해서 전달해주거나 이 사이에서 keyword를 keyword_id로 변경하는 과정 추가 필요
-        const { userid, title, keyword, content, status } = await req.body;
-        const result = await registerService.postRegister(userid, title, content, status, req.file);
+        const { userid, title, keyword, location, content, status } = await req.body;
+        const result = await registerService.postRegister(userid, title, location, content, status, req.file);
 
         const keyword_arr = keyword.split(", ");
         console.log("keyword_arr: " + keyword_arr);
