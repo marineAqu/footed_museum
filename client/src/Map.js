@@ -36,9 +36,8 @@ const Map = () => {
         setIsDragging(false);
     };
 
-    const handleDoubleClick = (keyword) => {
-        // 더블 클릭 시 키워드로 검색 결과 페이지로 이동
-        navigate('/search-results', { state: { keywords: [keyword] } });
+    const handleDoubleClick = (location) => {
+        navigate('/search-results', { state: { location } });
     };
 
     return (
