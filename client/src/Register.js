@@ -90,7 +90,7 @@ const Register = () => {
 
             if (response.status === 200) {
                 alert('등록되었습니다!');
-                //navigate('/'); // TODO: 전체 게시글로 direct
+                navigate('/Home');
             }
 
         } catch (error) {
