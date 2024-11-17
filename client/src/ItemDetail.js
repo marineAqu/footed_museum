@@ -57,7 +57,7 @@ const ItemDetail = () => {
             </header>
             <div className={styles.content}>
                 <img
-                    src={itemDetail?.image || 'default_image.png'} // 이미지가 없을 때 기본 이미지 사용(예시)
+                    src={'https://storage.cloud.google.com/footed_museum/'+postId+'.jpg' || 'default_image.png'} // 이미지가 없을 때 기본 이미지 사용(예시)
                     alt={itemDetail?.title || '이미지'}
                     className={styles.itemImage}
                 />

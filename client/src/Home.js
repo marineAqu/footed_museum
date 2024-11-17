@@ -87,7 +87,7 @@ const Home = () => {
                                 <p>{post?.status === '1' ? '잃어버렸어요' : '주웠어요'}</p>
                                 <p className={styles.postDate}>{post.post_date ? new Date(post.post_date).toLocaleDateString() : '날짜 정보 없음'}</p>
                             </div>
-                            <img src={post.image || 'default_image.png'} alt="분실물" className={styles.postImage} />
+                            <img src={'https://storage.cloud.google.com/footed_museum/'+post.post_id+'.jpg' || 'default_image.png'} alt="분실물" className={styles.postImage} />
                         </div>
                     ))
                 ) : (
