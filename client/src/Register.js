@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/Register.module.css';
 
@@ -9,9 +9,14 @@ const Register = () => {
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState('');
     const [keywords, setKeywords] = useState('');
-    const [location, setLocation] = useState('');   //여기 추가
+    const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('1');
+
+    const locations = [
+        '자연과학대', '법정대', 'IT', '종강', '미래', '인문대',
+        '글경', '공대', '학생회관', '도서관', '미대', '음대', '운동장'
+    ];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,7 +49,6 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         setImage(file);
@@ -75,7 +79,7 @@ const Register = () => {
         formDataToSend.append('image', image);
         formDataToSend.append('title', title);
         formDataToSend.append('keyword', keywords);
-        formDataToSend.append('location', location);    //여기 추가
+        formDataToSend.append('location', location);
         formDataToSend.append('content', description);
         formDataToSend.append('status', status);
         formDataToSend.append('userid', myId);
@@ -89,10 +93,9 @@ const Register = () => {
                 body: formDataToSend,
             });
 
-
             if (response.status === 200) {
                 alert('등록되었습니다!');
-                navigate('/Home');
+                //navigate('/'); // TODO: 전체 게시글로 direct
             }
 
         } catch (error) {
@@ -124,18 +127,23 @@ const Register = () => {
                 <div className={styles.inputGroup}>
                     <label>분실물 제목 입력</label>
                     <input type="text" name="title" value={title}
-                           onChange={(e) => setTitle(e.target.value)} // 입력 값 변경 시 상태 업데이트
+                           onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
                 <div className={styles.inputGroup}>
                     <label>인식된 키워드 확인/수정</label>
                     <input type="text" name="keywords" value={keywords}
-                           onChange={(e) => setKeywords(e.target.value)} // 입력 값 변경 시 상태 업데이트
+                           onChange={(e) => setKeywords(e.target.value)}
                     />
                 </div>
                 <div className={styles.inputGroup}>
-                    <label>장소 입력</label>
-                    <input type="text" name="location" value={location} onChange={(e) => setLocation(e.target.value)} />
+                    <label>장소 선택</label>
+                    <select name="location" value={location} onChange={(e) => setLocation(e.target.value)}>
+                        <option value="">장소를 선택하세요</option>
+                        {locations.map((loc, index) => (
+                            <option key={index} value={loc}>{loc}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className={styles.inputGroup}>
                     <label>기타 상세 설명</label>
@@ -145,7 +153,7 @@ const Register = () => {
                 <div className={styles.inputGroup}>
                     <label>주웠어요 / 잃어버렸어요</label>
                     <select name="status" value={status}
-                            onChange={(e) => setStatus(e.target.value)} // 입력 값 변경 시 상태 업데이트
+                            onChange={(e) => setStatus(e.target.value)}
                     >
                         <option value="1">잃어버렸어요</option>
                         <option value="0">주웠어요</option>
@@ -155,4 +163,5 @@ const Register = () => {
         </div>
     );
 };
+
 export default Register;
