@@ -5,9 +5,14 @@ class myPageController {
     // 유저가 작성한 글 목록 조회
     getUserPosts = async (req, res) => {
         try {
-            const userId = req.user.user_id;  // JWT에서 유저 정보 가져오기 (토큰 사용 시)
+            const userId = req.query.user_id;
+            console.log('받은 user_id:', userId);
+            if (!userId) {
+                return res.status(400).json({ error: 'user_id가 필요합니다.' });
+            }
 
             const posts = await service.getUserPosts(userId);
+            console.log('조회된 posts:', posts);
             res.json({posts});
         } catch (error) {
             console.error("에러 발생: " + error);
@@ -17,7 +22,10 @@ class myPageController {
 
     getUserNotifications = async (req, res) => {
         try {
-            const userId = req.user.user_id;
+            const userId = req.query.user_id;
+            if (!userId) {
+                return res.status(400).json({ error: 'user_id가 필요합니다.' });
+            }
 
             const postNotifications = await service.getPostNotifications(userId);
             const chatNotifications = await service.getChatNotifications(userId);

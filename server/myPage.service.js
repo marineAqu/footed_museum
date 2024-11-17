@@ -13,7 +13,7 @@ const connect = mysql.createConnection({
 function getUserPosts(userId) {
     return new Promise((resolve, reject) => {
         const query = `
-            SELECT post_id, title, content, post_date, found_status
+            SELECT post_id, title, content, post_date, status
             FROM Posts
             WHERE user_id = ?
         `;
@@ -31,7 +31,7 @@ function getUserPosts(userId) {
 function getPostNotifications(userId) {
     return new Promise((resolve, reject) => {
         const query = `
-            SELECT Posts.post_id, Posts.title, Posts.found_status, '게시글 알림' AS type
+            SELECT Posts.post_id, Posts.title, Posts.status, '게시글 알림' AS type
             FROM Posts
             WHERE user_id = ?
               AND found_status = 'found' -- 예시로 물건을 찾은 경우에만 알림
