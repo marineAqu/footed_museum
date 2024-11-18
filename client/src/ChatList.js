@@ -75,7 +75,7 @@ const ChatList = () => {
     ];
 
     const handleDoubleClick = (chatRoom) => {
-        navigate(`/chat/${chatRoom.room_id}`, { state: { chatRoom } }); // 선택한 채팅방의 정보와 함께 이동
+        navigate(`/chat/${chatRoom.roomid}`, { state: { chatRoom } }); // 선택한 채팅방의 정보와 함께 이동
     };
 
     const goToSearch = () => {
@@ -106,11 +106,11 @@ const ChatList = () => {
                 >
                     {/*<img src={room.image} alt="프로필" className={styles.profileImage}/>*/}
                     <div className={styles.chatInfo}>
-                        <h3>{room.post_id}</h3>
+                        <h3>{room.title}</h3>
                         <p>{room.lastMessage}</p>
                     </div>
                     <div className={styles.chatMeta}>
-                        <span className={styles.time}>{room.room_created_at}</span>
+                        <span className={styles.time}>{room.created_at}</span>
                         {room.unreadCount > 0 && (
                             <div className={styles.unreadBadge}>
                                 {room.unreadCount}
