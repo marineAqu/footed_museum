@@ -19,7 +19,8 @@ function getAllItems() {
                    Posts.image,
                    Posts.post_date,
                    Categories.category_name,
-                   Posts.status
+                   Posts.status,
+                   Posts.location
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
                      LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
@@ -42,7 +43,7 @@ function searchItemsByCategory(category_id) {
                    Posts.content,
                    Posts.image,
                    Categories.category_name,
-                   Posts.status
+                   Posts.status,
                    Posts.location
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
@@ -71,7 +72,8 @@ function searchItemsByKeyword(keyword) {
                    Posts.content,
                    Posts.image,
                    Categories.category_name,
-                   Posts.status
+                   Posts.status,
+                   Posts.location
             FROM Posts
                      LEFT JOIN PostCategory ON Posts.post_id = PostCategory.post_id
                      LEFT JOIN Categories ON PostCategory.category_id = Categories.category_id
