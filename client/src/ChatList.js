@@ -104,7 +104,7 @@ const ChatList = () => {
                     className={styles.chatRoom}
                     onDoubleClick={() => handleDoubleClick(room)}
                 >
-                    {/*<img src={room.image} alt="프로필" className={styles.profileImage}/>*/}
+                    <img src={'https://storage.cloud.google.com/footed_museum/'+room.postid+'.jpg'} alt="프로필" className={styles.profileImage}/>
                     <div className={styles.chatInfo}>
                         <h3>{room.title}</h3>
                         <p>{room.lastMessage}</p>
