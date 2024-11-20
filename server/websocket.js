@@ -16,10 +16,12 @@ wss.on('connection', (ws) => {
         console.log('보낸사람 Received:', result.senderId);
         console.log('메시지 Received:', result.message);
 
+        //클라이언트로 메시지 전송 & DB에 메시지 저장
+        //한 번만 저장되면 되므로 forEach 밖에서 실행
+        ChatService.sendMessage(result.chatRoomId, result.senderId, result.message);
+
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-                //클라이언트로 메시지 전송 & DB에 메시지 저장
-                ChatService.sendMessage(result.chatRoomId, result.senderId, result.message);
                 client.send(JSON.stringify(result));
             }
             else{
