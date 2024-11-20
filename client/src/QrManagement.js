@@ -53,7 +53,7 @@ const QrManagement = () => {
             <div className={styles.qrManagement}>
                 <div className={styles.qrContainer}>
                     <div className={styles.qrImage}>
-                        {<img src="QR.png" alt="현재 QR" />}
+                        {/*<img src="QR.png" alt="현재 QR" >*/}
                         {imgSrc && <img src={imgSrc} alt="현재 QR" />}
                     </div>
                     <div className={styles.currentQr}> </div>
